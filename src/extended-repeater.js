@@ -15,24 +15,16 @@ const {NotImplementedError} = require('../extensions/index.js');
  * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
  *
  */
-function repeater(str, options = {}) {
-    let strResult = [],
-        addResult = [],
-        repeatTimes = (options.hasOwnProperty('repeatTimes')) ? options.repeatTimes : 1,
-        separator = (options.hasOwnProperty('separator')) ? options.separator : '+',
-        addition = (options.hasOwnProperty('addition')) ? `${options.addition}` : '',
-        additionRepeatTimes = (options.hasOwnProperty('additionRepeatTimes')) ? options.additionRepeatTimes : 1,
-        additionSeparator = (options.hasOwnProperty('additionSeparator')) ? options.additionSeparator : '|';
+function repeater(str, {
+    repeatTimes = 1,
+    separator = "+",
+    addition = "",
+    additionRepeatTimes = 1,
+    additionSeparator = "|"
+}) {
+    const options = new Array(additionRepeatTimes).fill(String(addition)).join(additionSeparator);
 
-    for (let j = 1; j <= additionRepeatTimes; j++) {
-        addResult.push(addition);
-    }
-
-    for (let i = 1; i <= repeatTimes; i++) {
-        strResult.push(str + addResult.join(`${additionSeparator}`));
-    }
-
-    return strResult.join(`${separator}`);
+    return new Array(repeatTimes).fill(String(str) + options).join(separator);
 }
 
 module.exports = {
